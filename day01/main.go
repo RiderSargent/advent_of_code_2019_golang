@@ -7,25 +7,49 @@ import (
 	"strconv"
 )
 
-// Part 1: 3303995
-// Part 2: 4953118
 func main() {
-	modules := getInput()
-	totalFuel := 0
+	input := getInput()
+	fmt.Println("Part 1: ", partOne(input))
+	fmt.Println("Part 2: ", partTwo(input))
+}
+
+func partOne(modules []int) int {
+	fuel := 0
 
 	for _, mass := range modules {
-		totalFuel += mass/3 - 2
+		fuel += fuelFor(mass)
 	}
 
-	fmt.Print("Part 1: ")
-	fmt.Println(totalFuel)
+	return fuel
+}
+
+func partTwo(modules []int) int {
+	fuel := 0
+
+	for _, mass := range modules {
+		fuel += recursiveFuelFor(mass)
+	}
+
+	return fuel
+}
+
+func fuelFor(mass int) int {
+	return mass/3 - 2
+}
+
+func recursiveFuelFor(mass int) int {
+	fuel := mass/3 - 2
+
+	if fuel <= 0 {
+		return 0
+	}
+
+	return fuel + recursiveFuelFor(fuel)
 }
 
 func getInput() []int {
 	file, err := os.Open("input")
-	if err != nil {
-		panic(err)
-	}
+	panicIf(err)
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -34,11 +58,15 @@ func getInput() []int {
 	var numbers []int
 	for scanner.Scan() {
 		result, err := strconv.Atoi(scanner.Text())
-		if err != nil {
-			panic(err)
-		}
+		panicIf(err)
 		numbers = append(numbers, result)
 	}
 
 	return numbers
+}
+
+func panicIf(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
