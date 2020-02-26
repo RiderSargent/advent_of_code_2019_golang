@@ -10,13 +10,28 @@ import (
 func main() {
 	program := getInput("day02/input")
 
-	fmt.Println("Part 1:", run(program))
+	fmt.Println("Part 1:", run(program, 12, 2))
+	fmt.Println("Part 2:", findInputs(program, 19690720))
 }
 
-func run(program []int) int {
+func findInputs(program []int, target int) int {
 	memory := program
-	memory[1] = 12
-	memory[2] = 2
+	for noun := 0; noun < 100; noun++ {
+		for verb := 0; verb < 100; verb++ {
+			if run(memory, noun, verb) == target {
+				return 100*noun + verb
+			}
+		}
+	}
+	panic("inputs not found")
+}
+
+func run(program []int, noun, verb int) int {
+	memory := make([]int, len(program))
+	copy(memory, program)
+
+	memory[1] = noun
+	memory[2] = verb
 	i := 0
 	for {
 		opcode := memory[i]
@@ -32,7 +47,7 @@ func run(program []int) int {
 		case 99:
 			return memory[0]
 		default:
-			panic("illegal operation")
+			panic("illegal operation:")
 		}
 	}
 }
