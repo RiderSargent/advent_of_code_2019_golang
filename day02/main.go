@@ -16,22 +16,23 @@ func main() {
 }
 
 func run(program []int) (int, error) {
-	program[1] = 12
-	program[2] = 2
+	memory := program
+	memory[1] = 12
+	memory[2] = 2
 	i := 0
 	for {
-		opcode := program[i]
+		opcode := memory[i]
 		switch opcode {
 		case 1:
-			a, b, c := program[i+1], program[i+2], program[i+3]
-			program[c] = program[a] + program[b]
+			a, b, c := memory[i+1], memory[i+2], memory[i+3]
+			memory[c] = memory[a] + memory[b]
 			i += 4
 		case 2:
-			a, b, c := program[i+1], program[i+2], program[i+3]
-			program[c] = program[a] * program[b]
+			a, b, c := memory[i+1], memory[i+2], memory[i+3]
+			memory[c] = memory[a] * memory[b]
 			i += 4
 		case 99:
-			return program[0], nil
+			return memory[0], nil
 		default:
 			return 0, errors.New("illegal operation")
 		}
@@ -44,12 +45,12 @@ func getInput(filename string) []int {
 
 	input := strings.TrimSpace(string(bytes))
 
-	var program []int
+	var memory []int
 
 	for _, s := range strings.Split(input, ",") {
-		program = append(program, toInt(s))
+		memory = append(memory, toInt(s))
 	}
-	return program
+	return memory
 }
 
 func toInt(str string) int {
