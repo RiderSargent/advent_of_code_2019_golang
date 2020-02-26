@@ -48,7 +48,7 @@ func recursiveFuelFor(mass int) int {
 }
 
 func getInput() []int {
-	file, err := os.Open("input")
+	file, err := os.Open("day01/input")
 	panicIf(err)
 	defer file.Close()
 

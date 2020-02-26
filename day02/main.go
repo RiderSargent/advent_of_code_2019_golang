@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	program := getInput("input")
+	program := getInput("day02/input")
 	result, err := run(program)
 	panicIf(err)
 	fmt.Println("Part 1:", result)
