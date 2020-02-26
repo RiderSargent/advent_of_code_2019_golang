@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"strconv"
@@ -10,12 +9,11 @@ import (
 
 func main() {
 	program := getInput("day02/input")
-	result, err := run(program)
-	panicIf(err)
-	fmt.Println("Part 1:", result)
+
+	fmt.Println("Part 1:", run(program))
 }
 
-func run(program []int) (int, error) {
+func run(program []int) int {
 	memory := program
 	memory[1] = 12
 	memory[2] = 2
@@ -32,9 +30,9 @@ func run(program []int) (int, error) {
 			memory[c] = memory[a] * memory[b]
 			i += 4
 		case 99:
-			return memory[0], nil
+			return memory[0]
 		default:
-			return 0, errors.New("illegal operation")
+			panic("illegal operation")
 		}
 	}
 }
