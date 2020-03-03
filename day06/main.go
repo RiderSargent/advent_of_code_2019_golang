@@ -10,11 +10,35 @@ import (
 
 func main() {
 	lines := readLines("day06/input")
-
 	orbits := parseOrbits(lines)
-	count := countOrbits(orbits)
 
-	fmt.Println("Part 1:", count)
+	fmt.Println("Part 1:", countOrbits(orbits))
+
+	fmt.Println("Part 2:", countOrbitalTransfers("YOU", "SAN", orbits))
+}
+
+func countOrbitalTransfers(o1, o2 string, orbits map[string]string) int {
+	p1 := getParents(o1, orbits)
+	p2 := getParents(o2, orbits)
+	unique1 := p1
+	unique2 := p2
+	for i := 0; i < len(p1) && i < len(p2); i++ {
+		if p1[i] == p2[i] {
+			unique1 = p1[i+1:]
+			unique2 = p2[i+1:]
+		}
+	}
+	return len(unique1) + len(unique2)
+}
+
+func getParents(currentObject string, orbits map[string]string) []string {
+	parent := orbits[currentObject]
+	switch parent {
+	case "COM":
+		return []string{"COM"}
+	default:
+		return append(getParents(parent, orbits), parent)
+	}
 }
 
 func countOrbits(orbits map[string]string) int {
