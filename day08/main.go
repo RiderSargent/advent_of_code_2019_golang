@@ -10,11 +10,41 @@ import (
 
 func main() {
 	input := getInput("day08/input")
-	var layers [][]int
-	for r := 0; r < 100; r++ {
-		layers = append(layers, input[r*150:r*150+150])
+	layers := getLayers(input)
+	fmt.Println("Part 1:", part1(layers))
+	fmt.Println("Part 2:")
+	part2(layers)
+}
+
+func part2(layers [][]int) {
+	decoded := make([]int, 150)
+	numLayers := len(layers)
+
+	for i := 0; i < 150; i++ {
+	layerLoop:
+		for l := 0; l < numLayers; l++ {
+			if layers[l][i] != 2 {
+				decoded[i] = layers[l][i]
+				break layerLoop
+			}
+		}
 	}
 
+	i := 0
+	for row := 0; row < 6; row++ {
+		for col := 0; col < 25; col++ {
+			if decoded[i] == 0 {
+				fmt.Print(" ")
+			} else {
+				fmt.Print("█")
+			}
+			i++
+		}
+		fmt.Println()
+	}
+}
+
+func part1(layers [][]int) int {
 	min := math.MaxInt32
 	minIndex := 0
 	for i, l := range layers {
@@ -24,10 +54,8 @@ func main() {
 			minIndex = i
 		}
 	}
-
-	answer := count(1, layers[minIndex]) * count(2, layers[minIndex])
-
-	fmt.Println("answer:", answer)
+	l := layers[minIndex]
+	return count(1, l) * count(2, l)
 }
 
 func count(n int, layer []int) int {
@@ -38,6 +66,14 @@ func count(n int, layer []int) int {
 		}
 	}
 	return result
+}
+
+func getLayers(input []int) [][]int {
+	var layers [][]int
+	for r := 0; r < 100; r++ {
+		layers = append(layers, input[r*150:r*150+150])
+	}
+	return layers
 }
 
 func getInput(filename string) []int {
