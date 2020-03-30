@@ -54,7 +54,7 @@ func run(program []int, noun, verb int) int {
 
 func getInput(filename string) []int {
 	bytes, err := ioutil.ReadFile(filename)
-	panicIf(err)
+	catch(err)
 
 	input := strings.TrimSpace(string(bytes))
 
@@ -68,11 +68,11 @@ func getInput(filename string) []int {
 
 func toInt(str string) int {
 	n, err := strconv.Atoi(str)
-	panicIf(err)
+	catch(err)
 	return n
 }
 
-func panicIf(err error) {
+func catch(err error) {
 	if err != nil {
 		panic(err)
 	}

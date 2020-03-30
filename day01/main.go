@@ -49,7 +49,7 @@ func recursiveFuelFor(mass int) int {
 
 func getInput() []int {
 	file, err := os.Open("day01/input")
-	panicIf(err)
+	catch(err)
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -58,14 +58,14 @@ func getInput() []int {
 	var numbers []int
 	for scanner.Scan() {
 		result, err := strconv.Atoi(scanner.Text())
-		panicIf(err)
+		catch(err)
 		numbers = append(numbers, result)
 	}
 
 	return numbers
 }
 
-func panicIf(err error) {
+func catch(err error) {
 	if err != nil {
 		panic(err)
 	}

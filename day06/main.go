@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 )
@@ -83,6 +82,6 @@ func readLines(filename string) []string {
 
 func catch(err error) {
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }

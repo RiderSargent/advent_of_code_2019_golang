@@ -170,6 +170,6 @@ func toInt(str string) int {
 
 func catch(err error) {
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
